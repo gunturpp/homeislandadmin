@@ -26,8 +26,8 @@
             <th>Nama Homestay</th>
             <th>Harga</th>
             <th>Kuota</th>
-            <th>Longitude</th>
             <th>Latitude</th>
+            <th>Longitude</th>
             <th>Foto 1</th>
             <th>Foto 2</th>
             <th>Foto 3</th>

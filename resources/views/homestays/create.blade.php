@@ -12,6 +12,10 @@
         </div>
     </div>
 
+    {!! Form::open(array('route' => 'homestays.store','method'=>'POST','files'=>true)) !!}
+         @include('homestays.form')
+    {!! Form::close() !!}
+
     @if (count($errors) < 0)
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,9 +26,5 @@
             </ul>
         </div>
     @endif
-
-    {!! Form::open(array('route' => 'homestays.store','method'=>'POST')) !!}
-         @include('homestays.form')
-    {!! Form::close() !!}
 
 @endsection

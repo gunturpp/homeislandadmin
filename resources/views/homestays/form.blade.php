@@ -1,5 +1,7 @@
-{!! Form::open(array('route' => 'image.upload.post','files'=>true)) !!}
-    
+{{--  {!! Form::open(array('route' => 'image.upload.post','files'=>true)) !!}  --}}
+{{--  <form action="/images" method="post" enctype="multipart/form-data">  --}}
+{{--  {!! Form::open(array('url'=>'items','class'=>'register-form','files'=>true)) !!}      --}}
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
@@ -47,9 +49,11 @@
                 <div class="form-horizontal ">
                     <strong>Foto 1:</strong>
                     {!! Form::file('foto_1', array('class' => 'image')) !!}
+                    {{--  {!! Form::file('frontimage') !!}  --}}
                 </div>
                 <br />
             </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-horizontal">
                     <strong>Foto 2:</strong>
@@ -57,6 +61,7 @@
                 </div>
                 <br />
             </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-horizontal">
                     <strong>Foto 3:</strong>
@@ -74,7 +79,7 @@
                     <img src="images/{{ Session::get('image') }}">
                     @endif  --}}
 
-            @if (count($errors) > 0)
+            {{--  @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.
                     <ul>
@@ -84,7 +89,7 @@
                     </ul>
                 </div>
             @endif
-
+  --}}
             {{--  <br />
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-success">Submit</button>
@@ -97,6 +102,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
         </div>
 
-{!! Form::close() !!}  
+{{--  {!! Form::close() !!}    --}}
+{{--  </form>  --}}
 
 </div>

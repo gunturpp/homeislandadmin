@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use App\Homestay;
 
 class HomestayController extends Controller
@@ -38,7 +39,7 @@ class HomestayController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request -> all());
+        dd($request -> all());
 
         request()->validate([
             'nama_homestay' => 'required',
@@ -46,31 +47,44 @@ class HomestayController extends Controller
             'kuota' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'foto_1' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg,JPG|max:15000',
+            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg,JPG|max:15000',
+            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg,JPG|max:15000',
             ]);
 
-        $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName1);
+        if ($request->hasFile('image')) {
+            
+            $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName1);
 
-        $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName2);
+            $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName2);
 
-        $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName3);
+            $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName3);
+            
+        }
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_1',$imageName1);
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_1',$imageName1);
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_2',$imageName2);
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_2',$imageName2);
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_3',$imageName3);
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_3',$imageName3);
+
+    //     if( $itemreq->hasFile('frontimage')){ 
+    //         $image = $itemreq->file('frontimage'); 
+    //         $fileName = $image->getClientOriginalName();
+    //     $fileExtension = $image->getClientOriginalExtension();
+    //         dd($fileExtension); 
+    //     } else {
+    //         dd('No image was found');
+    // }
 
         Homestay::create($request->all());
         return redirect()->route('homestays.index')
@@ -118,31 +132,35 @@ class HomestayController extends Controller
             'kuota' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'foto_1' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+            'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
+            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
+            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
+            ]);
 
-        $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName1);
+        if ($request->hasFile('image')) {
+            
 
-        $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName2);
+            $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName1);
 
-        $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('/images'), $imageName3);
+            $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move('/images', $imageName2);
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_1',$imageName1);
+            $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
+            request()->image->move(public_path('images'), $imageName3);
+        }
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_2',$imageName2);
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_1',$imageName1);
 
-        return back()
-            ->with('success','You have successfully upload image.')
-            ->with('foto_3',$imageName3);   
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_2',$imageName2);
+
+        // return back()
+        //     ->with('success','You have successfully upload image.')
+        //     ->with('foto_3',$imageName3);   
 
         Homestay::find($id)->update($request->all());
         return redirect()->route('homestays.index')

@@ -20,8 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin', 'AdminController@index')->name('home');
 
-Route::get('image-upload',['as'=>'image.upload','uses'=>'HomestayController@create']);
-Route::post('image-upload',['as'=>'image.upload.post','uses'=>'HomestayController@upload']);
+// Route::get('image-upload',['as'=>'image.upload','uses'=>'HomestayController@store']);
+// Route::post('image-upload',['as'=>'image.upload.post','uses'=>'HomestayController@update']);
+
+Route::get('homestays/create', 'HomestayController@create');
+Route::post('homestays', 'HomestayController@store');
 
 Route::resource('cruds','CrudController');
 Route::resource('homestays','HomestayController');
