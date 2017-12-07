@@ -14,4 +14,13 @@ class Homestay extends Model
     protected $fillable = [
         'nama_homestay',  'harga', 'kuota', 'lat', 'long', 'foto_1', 'foto_2', 'foto_3'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'remember_token',
+    ];
 }

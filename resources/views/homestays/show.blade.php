@@ -21,14 +21,26 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Longitude:</strong>
-                {{ $homestay->long}}
+                <strong>Harga:</strong>
+                {{ $homestay->harga}}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Kuota:</strong>
+                {{ $homestay->kuota}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Latitude:</strong>
                 {{ $homestay->lat}}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Longitude:</strong>
+                {{ $homestay->long}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

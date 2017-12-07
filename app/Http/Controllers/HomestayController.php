@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+// use Auth;
+use Session;
+use Validator;
+use File;
 use App\Homestay;
 
 class HomestayController extends Controller
@@ -41,29 +46,58 @@ class HomestayController extends Controller
     {
         dd($request -> all());
 
-        request()->validate([
+        // request()->validate([
+        $rules = [
             'nama_homestay' => 'required',
             'harga' => 'required',
             'kuota' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg,JPG|max:15000',
-            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg,JPG|max:15000',
-            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg,JPG|max:15000',
-            ]);
+            'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
+            'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
+            'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
+        ];
+            // ]);
 
-        if ($request->hasFile('image')) {
-            
-            $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName1);
+        $messages = [
+            'required' => 'Field harus di isi alias tidak boleh kosong',
+            'image' => 'Data harus berbentuk gambar',
+            'mimes' => 'Image harus berekstensi JPEG, JPG, dan PNG',
+        ];
 
-            $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName2);
-
-            $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName3);
-            
+        $data = $request->except(['image']);
+        if ($request->hasFile('image')){
+            $data['image'] = $this->savePhoto($request->file('image'));
         }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()) {
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Oops, gagal menambahkan data homestay"]);
+            return redirect() -> route('homestays.index')->withErrors($validator)->withInput();
+        }
+
+        $homestay = Homestay::create($data);
+        if($homestay){
+            Session::flash('flash_notification', ["level"=>"success", "message"=>"Berhasil menambahkan homestay '".$request->title."' kedalam database"]);
+            return redirect()->route('homestays.index');
+        }
+        else{
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Oops, gagal menambahkan data homestay"]);
+            return redirect()->route('homestays.index')->withInput();  
+        }
+
+        // if ($request->hasFile('image')) {
+            
+        //     $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move_uploaded_file(public_path('homestay'), $imageName1);
+
+        //     $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move(public_path('homestay'), $imageName2);
+
+        //     $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move(public_path('homestay'), $imageName3);
+            
+        // }
 
         // return back()
         //     ->with('success','You have successfully upload image.')
@@ -109,9 +143,9 @@ class HomestayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_homestay)
     {
-        $homestay = Homestay::find($id);
+        $homestay = Homestay::find($id_homestay);
         return view('homestays.edit',compact('homestay'));
     }
 
@@ -126,7 +160,7 @@ class HomestayController extends Controller
     {
         // dd($request -> all());
 
-        request()->validate([
+        $rules = [
             'nama_homestay' => 'required',
             'harga' => 'required',
             'kuota' => 'required',
@@ -135,20 +169,66 @@ class HomestayController extends Controller
             'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
             'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
             'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
-            ]);
+        ];
+            // ]);
 
-        if ($request->hasFile('image')) {
+        $messages = [
+            'required' => 'Field harus di isi alias tidak boleh kosong',
+            'image' => 'Data harus berbentuk gambar',
+            'mimes' => 'Image harus berekstensi JPEG, JPG, dan PNG',
+        ];
+
+        $olddata = Homestay::find($id);
+        $data = $request->except(['image']);
+        if ($request->hasFile('image')){
+            $data['image'] = $this->savePhoto($request->file('image'));
+            if($olddata->image !== '') $this->deletePhoto($olddata->image);
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()) {
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Oops, gagal mengubah data homestay"]);
+            return redirect() -> route('homestays.index')->withErrors($validator)->withInput();
+        }
+
+        // Cek Kondisi berdasarkan latitude dan longtitude, sudah ada atau belum, dengan asumsi dalam satu kordinat
+        // hanya ada satu homestay
+
+        $homestay = Homestay::find($id);
+        if($homestay->lat != $request->lat and $homestay->long != $request->long){
+            $check_homestay = Homestay::where('lat', $request->lat)->where('long', $request->long)->count();
+        }
+        else{
+            $check_homestay = 0;
+        }
+ 
+        if($check_homestay) {
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Homestay dengan Alamat yang sama sudah ada"]);
+            return redirect()->route('homestays.index')->withInput();        
+        }
+
+        $homestay = Homestay::update($data);
+        if($homestay){
+            Session::flash('flash_notification', ["level"=>"success", "message"=>"Berhasil mengubah data homestay '".$request->title."' kedalam database"]);
+            return redirect()->route('homestays.index');
+        }
+        else{
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Oops, gagal mengubah data homestay"]);
+            return redirect()->route('homestays.index')->withInput();  
+        }
+
+        // if ($request->hasFile('image')) {
             
 
-            $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName1);
+        //     $imageName1 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move(public_path('images'), $imageName1);
 
-            $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move('/images', $imageName2);
+        //     $imageName2 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move('/images', $imageName2);
 
-            $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
-            request()->image->move(public_path('images'), $imageName3);
-        }
+        //     $imageName3 = time().'.'.request()->image->getClientOriginalExtension();
+        //     request()->image->move(public_path('images'), $imageName3);
+        // }
 
         // return back()
         //     ->with('success','You have successfully upload image.')
@@ -162,9 +242,9 @@ class HomestayController extends Controller
         //     ->with('success','You have successfully upload image.')
         //     ->with('foto_3',$imageName3);   
 
-        Homestay::find($id)->update($request->all());
-        return redirect()->route('homestays.index')
-                        ->with('success','Homestay has been updated successfully');
+        // Homestay::find($id)->update($request->all());
+        // return redirect()->route('homestays.index')
+        //                 ->with('success','Homestay has been updated successfully');
     }
 
     /**
@@ -175,8 +255,34 @@ class HomestayController extends Controller
      */
     public function destroy($id)
     {
-        Homestay::find($id)->delete();
-        return redirect()->route('homestays.index')
-                        ->with('success','Homestay has been deleted successfully');
+
+        $data = Homestay::find($id);
+        $homestay = Homestay::find($id)->delete();
+        if($homestay){
+            if($data->image !== '') $this->deletePhoto($data->image);
+            Session::flash('flash_notification', ["level"=>"success", "message"=>"Berhasil menghapus Homestay '".$data->title."'"]);
+            return redirect()->route('homestays.index');
+        }
+        else {
+            Session::flash('flash_notification', ["level"=>"danger", "message"=>"Oops, gagal menghapus homestay"]);
+            return redirect() -> route('homestays.index')->withErrors($validator)->withInput();  
+        }
+
+        // Homestay::find($id)->delete();
+        // return redirect()->route('homestays.index')
+        //                 ->with('success','Homestay has been deleted successfully');
+    }
+
+    public function savePhoto(UploadedFile $photo) {
+        $fileName = str_random(40) . '.' . $photo->guessClientExtension();
+        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'images/homestay';
+        // $photo -> move($destinationPath, $fileName);
+        move_uploaded_file($photo['file']['tmp_name'], $destinationPath);
+        return $fileName;
+    }
+ 
+    public function deletePhoto($filename){
+        $path = public_path() . DIRECTORY_SEPARATOR . 'images/homestay'.$filename;
+        return File::delete($path);
     }
 }

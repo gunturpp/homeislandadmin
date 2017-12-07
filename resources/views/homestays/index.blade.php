@@ -31,7 +31,7 @@
             <th>Foto 1</th>
             <th>Foto 2</th>
             <th>Foto 3</th>
-            <th width="280px">Action</th>
+            <th width="140px">Action</th>
         </tr>
     @foreach ($homestays as $homestay)
     <tr>
@@ -39,8 +39,8 @@
         <td>{{ $homestay->nama_homestay}}</td>
         <td>{{ $homestay->harga}}</td>
         <td>{{ $homestay->kuota}}</td>
-        <td>{{ $homestay->long}}</td>
         <td>{{ $homestay->lat}}</td>
+        <td>{{ $homestay->long}}</td>
         <td>{{ $homestay->foto_1}}</td>
         <td>{{ $homestay->foto_2}}</td>
         <td>{{ $homestay->foto_3}}</td>
