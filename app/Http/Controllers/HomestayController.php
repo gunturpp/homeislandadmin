@@ -167,9 +167,9 @@ class HomestayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_homestay)
     {
-        $homestay = Homestay::find($id);
+        $homestay = Homestay::find($id_homestay);
         return view('homestays.show',compact('homestay'));
     }
 

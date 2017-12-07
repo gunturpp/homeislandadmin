@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('/auth/login');
+    // return view('/auth/login');
+    return view('/dashboard/index');
+    
 });
 
 Auth::routes();
@@ -52,3 +54,6 @@ Route::get('homestays/edit', 'HomestayController@edit');
 // resources
 Route::resource('cruds','CrudController');
 Route::resource('homestays','HomestayController');
+
+// Events
+Route::resource('event', 'EventController');

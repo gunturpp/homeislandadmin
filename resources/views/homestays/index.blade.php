@@ -64,4 +64,6 @@
     </table>
 
     {!! $homestays->links() !!}
-@endsection
+
+</section>
+</div>
