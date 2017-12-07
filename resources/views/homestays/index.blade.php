@@ -1,18 +1,13 @@
-@include('dashboard.header')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        CRUD
-        <small>Control panel</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">CRUD</li>
-      </ol>
-    </section>
- 
-    <section class="content">
+@extends('layout')
+
+@section('content')
+    <style>
+        .photo{
+            width:40px;
+            heigth:50px;
+        }
+    </style>
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -53,7 +48,7 @@
         <td>{{ $homestay->kuota}}</td>
         <td>{{ $homestay->lat}}</td>
         <td>{{ $homestay->long}}</td>
-        <td>{{ $homestay->foto_1}}</td>
+        <td>{!! Html::image('images/homestay/'. $homestay->foto_1, 'foto_1', ['class'=>'photo']) !!}</td>
         <td>{{ $homestay->foto_2}}</td>
         <td>{{ $homestay->foto_3}}</td>
         <td>

@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    {!! Form::open(array('route' => 'homestays.store','method'=>'POST','files'=>true)) !!}
+    {!! Form::open(['route' => 'homestays.store','method'=>'POST','files'=>true]) !!}
          @include('homestays.form')
     {!! Form::close() !!}
 

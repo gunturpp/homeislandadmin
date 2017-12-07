@@ -35,12 +35,12 @@ Route::prefix('admin')->group(function(){
 
 // cruds
 // Route::get('cruds/index', 'CrudsController@index');
-Route::get('cruds/create', 'CrudsController@create');
-Route::post('cruds/store', 'CrudsController@store');
-Route::delete('cruds/destroy', 'CrudsController@destroy');
-Route::put('cruds/update', 'CrudsController@update');
-Route::get('cruds/show', 'CrudsController@show');
-Route::get('cruds/edit', 'CrudsController@edit');
+Route::get('cruds/create', 'CrudController@create');
+Route::post('cruds/store', 'CrudController@store');
+Route::delete('cruds/destroy', 'CrudController@destroy');
+Route::put('cruds/update', 'CrudController@update');
+Route::get('cruds/show', 'CrudController@show');
+Route::get('cruds/edit', 'CrudController@edit');
 
 // homestays
 // Route::get('homestays/index', 'HomestayController@index');
