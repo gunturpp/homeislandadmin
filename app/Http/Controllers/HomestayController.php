@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Session;
 use Validator;
 use File;
-use html;
+use Html;
 use App\Homestay;
 
 class HomestayController extends Controller
