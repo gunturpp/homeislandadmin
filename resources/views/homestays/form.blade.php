@@ -79,7 +79,7 @@
                     <img src="images/{{ Session::get('image') }}">
                     @endif  --}}
 
-            {{--  @if (count($errors) > 0)
+            @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <strong>Whoops!</strong> There were some problems with your input.
                     <ul>
@@ -89,7 +89,7 @@
                     </ul>
                 </div>
             @endif
-  --}}
+
             {{--  <br />
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-success">Submit</button>

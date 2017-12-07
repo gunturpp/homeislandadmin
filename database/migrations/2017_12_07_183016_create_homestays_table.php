@@ -21,9 +21,9 @@ class CreateHomestaysTable extends Migration
             $table->integer('kuota');
             $table->decimal('lat', 10, 7);
             $table->decimal('long', 10, 7);
-            $table->binary('foto_1') ;            
-            $table->binary('foto_2') -> nullable();            
-            $table->binary('foto_3') -> nullable();            
+            $table->string('foto_1', 200) ;            
+            $table->string('foto_2', 200) -> nullable();            
+            $table->string('foto_3', 200) -> nullable();            
             $table->timestamps();
         });
     }

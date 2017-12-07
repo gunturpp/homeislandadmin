@@ -1,6 +1,13 @@
 @extends('layout')
 
 @section('content')
+    <style>
+        .photo{
+            width:40px;
+            heigth:50px;
+        }
+    </style>
+
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -41,12 +48,12 @@
         <td>{{ $homestay->kuota}}</td>
         <td>{{ $homestay->lat}}</td>
         <td>{{ $homestay->long}}</td>
-        <td>{{ $homestay->foto_1}}</td>
+        <td>{!! Html::image('images/homestay/'. $homestay->foto_1, 'foto_1', ['class'=>'photo']) !!}</td>
         <td>{{ $homestay->foto_2}}</td>
         <td>{{ $homestay->foto_3}}</td>
         <td>
-            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id) }}">Show</a>
-            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id) }}">Edit</a>
+            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id_homestay) }}">Show</a>
+            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id_homestay) }}">Edit</a>
             {!! Form::open(['method' => 'DELETE','route' => ['homestays.destroy', $homestay->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
