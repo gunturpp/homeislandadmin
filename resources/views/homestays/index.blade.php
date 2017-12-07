@@ -1,6 +1,18 @@
-@extends('layout')
-
-@section('content')
+@include('dashboard.header')
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        CRUD
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">CRUD</li>
+      </ol>
+    </section>
+ 
+    <section class="content">
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -31,7 +43,7 @@
             <th>Foto 1</th>
             <th>Foto 2</th>
             <th>Foto 3</th>
-            <th width="280px">Action</th>
+            <th width="140px">Action</th>
         </tr>
     @foreach ($homestays as $homestay)
     <tr>
@@ -39,14 +51,14 @@
         <td>{{ $homestay->nama_homestay}}</td>
         <td>{{ $homestay->harga}}</td>
         <td>{{ $homestay->kuota}}</td>
-        <td>{{ $homestay->long}}</td>
         <td>{{ $homestay->lat}}</td>
+        <td>{{ $homestay->long}}</td>
         <td>{{ $homestay->foto_1}}</td>
         <td>{{ $homestay->foto_2}}</td>
         <td>{{ $homestay->foto_3}}</td>
         <td>
-            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id) }}">Show</a>
-            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id) }}">Edit</a>
+            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id_homestay) }}">Show</a>
+            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id_homestay) }}">Edit</a>
             {!! Form::open(['method' => 'DELETE','route' => ['homestays.destroy', $homestay->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
@@ -56,4 +68,6 @@
     </table>
 
     {!! $homestays->links() !!}
-@endsection
+
+</section>
+</div>

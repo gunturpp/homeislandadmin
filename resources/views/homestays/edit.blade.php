@@ -12,6 +12,10 @@
         </div>
     </div>
 
+    {!! Form::model($homestay, ['method' => 'PATCH','route' => ['homestays.update', $homestay->id], 'files'=>true]) !!}
+        @include('homestay.form')
+    {!! Form::close() !!}
+
     @if (count($errors) > 0)
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,9 +26,5 @@
             </ul>
         </div>
     @endif
-
-    {!! Form::model($homestay, ['method' => 'PATCH','route' => ['homestays.update', $homestay->id]]) !!}
-        @include('homestay.form')
-    {!! Form::close() !!}
 
 @endsection
