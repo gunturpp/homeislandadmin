@@ -49,7 +49,7 @@
         <td>{{ $homestay->kuota}}</td>
         <td>{{ $homestay->lat}}</td>
         <td>{{ $homestay->long}}</td>
-        <td>{!! Html::image('public/images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo']) !!}</td>
+        <td>{!! Html::image('images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo']) !!}</td>
         <td>{{ $homestay->foto_2}}</td>
         <td>{{ $homestay->foto_3}}</td>
         <td>
