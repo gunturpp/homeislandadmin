@@ -47,7 +47,10 @@
             <div class="form-group">
                 <strong>Foto 1:</strong>
                 {{--  {{ Html::image('images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo'])}}  --}}
-                <img src='{{ $homestay->foto_1}}' />
+                {{--  <img src='{{ 'images/homestay/' . $homestay->foto_1}}' />  --}}
+                {{--  <img src="{{ asset('images/homestay/' . $homestay->foto_1) }}" alt="">  --}}
+                <img src="{!! url('/images/homestay/' . $homestay->foto_1) !!}" alt="{{ $homestay->foto_11 }}">
+                {{--  <img src="{{ URL::to('images/homestay/' . $homestay->foto_1) }}" alt="" class="img-responsive">  --}}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

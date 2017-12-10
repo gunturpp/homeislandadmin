@@ -54,7 +54,7 @@ class HomestayController extends Controller
             'kuota' => 'required',
             'lat' => 'required',
             'long' => 'required',
-            'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
+            'foto_1' => 'required|image|mimes:jpeg,png,jpg|max:15000',
             'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
             'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
         // ];
@@ -194,8 +194,8 @@ class HomestayController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request -> all());
-
-        $rules = [
+        request()->validate([            
+        // $rules = [
             'nama_homestay' => 'required',
             'harga' => 'required',
             'kuota' => 'required',
@@ -204,14 +204,14 @@ class HomestayController extends Controller
             'foto_1' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
             'foto_2' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
             'foto_3' => 'nullable|image|mimes:jpeg,png,jpg|max:15000',
-        ];
-            // ]);
+        // ];
+            ]);
 
-        $messages = [
-            'required' => 'Field harus di isi alias tidak boleh kosong',
-            'image' => 'Data harus berbentuk gambar',
-            'mimes' => 'Image harus berekstensi JPEG, JPG, dan PNG',
-        ];
+        // $messages = [
+        //     'required' => 'Field harus di isi alias tidak boleh kosong',
+        //     'image' => 'Data harus berbentuk gambar',
+        //     'mimes' => 'Image harus berekstensi JPEG, JPG, dan PNG',
+        // ];
 
         // $data = $request->except(['image']);
         // if ($request->hasFile('image')){
@@ -368,5 +368,12 @@ class HomestayController extends Controller
     public function deletePhoto($filename){
         $path = public_path() . DIRECTORY_SEPARATOR . 'images/homestay'.$filename;
         return File::delete($path);
+    }
+
+    public function getUserImage($id)
+    {
+        $file = Storage::disk('public')->get($id);
+    
+        return view('yourviewnamehere', ['myFile' => $file]);
     }
 }

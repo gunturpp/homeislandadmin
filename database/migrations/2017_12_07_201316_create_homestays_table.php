@@ -18,7 +18,7 @@ class CreateHomestaysTable extends Migration
             $table->increments('id');
             // $table->increments('id_homestay');
             $table->string('nama_homestay');
-            $table->decimal('harga');
+            $table->decimal('harga', 12, 2);
             $table->integer('kuota');
             $table->decimal('lat', 10, 7);
             $table->decimal('long', 10, 7);
