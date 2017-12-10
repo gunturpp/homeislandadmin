@@ -46,7 +46,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Foto 1:</strong>
-                {{ $homestay->foto_1}}
+                {{--  {{ Html::image('images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo'])}}  --}}
+                <img src='{{ $homestay->foto_1}}' />
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

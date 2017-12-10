@@ -14,8 +14,9 @@ class CreateHomestaysTable extends Migration
     public function up()
     {
         Schema::defaultStringLength(191);        
-        Schema::create('homestays', function (Blueprint $table) {
-            $table->increments('id_homestay');
+        Schema::create('homestays', function (Blueprint $table) {            
+            $table->increments('id');
+            // $table->increments('id_homestay');
             $table->string('nama_homestay');
             $table->decimal('harga');
             $table->integer('kuota');

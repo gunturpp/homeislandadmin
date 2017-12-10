@@ -13,7 +13,7 @@
     </div>
 
     {!! Form::model($homestay, ['method' => 'PATCH','route' => ['homestays.update', $homestay->id], 'files'=>true]) !!}
-        @include('homestay.form')
+        @include('homestays.form')
     {!! Form::close() !!}
 
     @if (count($errors) > 0)

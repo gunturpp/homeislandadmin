@@ -1,8 +1,8 @@
 @include('dashboard.header')
     <style>
         .photo{
-            width:40px;
-            heigth:50px;
+            width:30px;
+            heigth:30px;
             border-radius: 50px 50px 50px 50px;
         }
     </style>
@@ -47,9 +47,9 @@
             <th>Kuota</th>
             <th>Latitude</th>
             <th>Longitude</th>
-            <th>Foto 1</th>
-            <th>Foto 2</th>
-            <th>Foto 3</th>
+            {{--  <th>Foto 1</th>  --}}
+            {{--  <th>Foto 2</th>
+            <th>Foto 3</th>  --}}
             <th width="140px">Action</th>
         </tr>
     @foreach ($homestays as $homestay)
@@ -60,12 +60,13 @@
         <td>{{ $homestay->kuota}}</td>
         <td>{{ $homestay->lat}}</td>
         <td>{{ $homestay->long}}</td>
-        <td>{!! Html::image('images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo']) !!}</td>
-        <td>{{ $homestay->foto_2}}</td>
-        <td>{{ $homestay->foto_3}}</td>
+        {{--  <td>{!! Html::image('images/homestay/'. $homestay->foto_1, 'photo', ['class'=>'photo']) !!}</td>\  --}}
+        {{--  <td>{{ Html::image('images/homestay/'. $homestay->foto_1, 'Image') }}</td>  --}}
+        {{--  <td>{{ $homestay->foto_2}}</td>
+        <td>{{ $homestay->foto_3}}</td>  --}}
         <td>
-            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id_homestay) }}">Show</a>
-            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id_homestay) }}">Edit</a>
+            <a class="btn btn-info" href="{{ route('homestays.show',$homestay->id) }}">Show</a>
+            <a class="btn btn-primary" href="{{ route('homestays.edit',$homestay->id) }}">Edit</a>
             {!! Form::open(['method' => 'DELETE','route' => ['homestays.destroy', $homestay->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
             {!! Form::close() !!}
