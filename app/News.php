@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class News extends Model
 {
-    protected $table = 'events';
-    
+    protected $table = 'newss';
     /**
      * The attributes that are mass assignable.
      *
@@ -15,8 +14,9 @@ class Event extends Model
      */
     protected $fillable = [
         'judul',
-        'deskripsi',
         'foto',
+        'deskripsi',
+        'admin',
     ];
 
     /**
@@ -25,6 +25,6 @@ class Event extends Model
      * @var array
      */
     protected $hidden = [
-        'remember_token',
+        // 'remember_token',
     ];
 }

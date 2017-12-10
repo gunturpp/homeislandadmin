@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Admin;
+use App\News;
+use DB;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+        //$this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,18 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+		if($user->cakupan=='daerah' || $user->cakupan=='pusat' ){
+			$newsss = DB::table('newss')
+			->count();
+        }
+        else {
+            return 'salah';
+        }
+        $newss = News::latest()->paginate(5);
+        return view('news.index',compact('newss'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+
     }
 
     /**
@@ -23,7 +44,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('news.create');
     }
 
     /**
@@ -34,9 +55,33 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        request()->validate([
+            'judul' => 'required|max:20',
+            'deskripsi' => 'required|max:255',
+            'foto' => 'required|mimes:jpeg,png,jpg|max:15000',       
+            ]);
+            $data = $request->only('judul','deskripsi', 'foto');
+            
+            // $data = $request->except(['image']);
+            $photo1 = "";        
+            if ($request->hasFile('foto')){ //has file itu meminta nama databasenya bukan classnya
+                $ip = request()->ip();
+                $file = $request->foto;
+                $fileName = $file->getClientOriginalName();
+                $getPath = 'http://192.168.43.85/homeislandadmin/public/img/' . $fileName;
+                $destinationPath = "images/news";
+                $data['foto'] = '../'. $destinationPath . '/' . $fileName;
+                $file -> move($destinationPath, $getPath,$fileName);
+                $photo1 = $fileName;
+                // return $getPath;
 
+    
+            }
+    
+        News::create($data);
+        return redirect()->route('news.index')
+            ->with('success','New news has been created successfully');
+    }
     /**
      * Display the specified resource.
      *
@@ -45,7 +90,8 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+        $newss = News::find($id);
+        return view('news.show',compact('newss'));
     }
 
     /**
@@ -56,7 +102,8 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $newss = News::find($id);
+        return view('news.edit',compact('newss'));
     }
 
     /**
@@ -68,7 +115,14 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'judul' => 'required|max:20',
+            'deskipsi' => 'required|max:1000',
+            'foto' => 'bail|required|image|mimes:jpeg,png,jpg|max:15000',
+            ]);
+        News::find($id)->update($request->all());
+        return redirect()->route('news.index')
+                        ->with('success','Update news has been updated successfully');
     }
 
     /**
@@ -79,6 +133,8 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        News::find($id)->delete();
+        return redirect()->route('news.index')
+                        ->with('success','Delete news has been deleted successfully');
     }
 }

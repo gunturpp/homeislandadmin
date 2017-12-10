@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2017 at 02:30 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.10
+-- Generation Time: 10 Des 2017 pada 06.48
+-- Versi Server: 10.1.28-MariaDB
+-- PHP Version: 7.1.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,13 +25,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admins`
+-- Struktur dari tabel `admins`
 --
 
 CREATE TABLE `admins` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cakupan` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -39,22 +40,24 @@ CREATE TABLE `admins` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `admins`
+-- Dumping data untuk tabel `admins`
 --
 
-INSERT INTO `admins` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'rin', 'rinrin@gmail.com', '$2y$10$hoYNL..eCxYS/S117QdlieMBacjCiYe7ZlLRcQ/xbveS/QmfMuj5i', NULL, NULL, NULL);
+INSERT INTO `admins` (`id`, `name`, `email`, `cakupan`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'kota1', 'kota1@gmail.com', 'pusat', '$2y$10$NLzySWwhOLN22civFI9mTuEzcbs1o1lNbklFjHEjLdFcpRYlU75kS', NULL, '2017-12-08 02:05:25', '2017-12-08 02:05:25'),
+(2, 'kota2', 'kota2@gmail.com', 'daerah', '$2y$10$2N5p6HrnaWoWuaej/4jyFuMKGEQlm5g36wNYVTTj0ILr.kFrnNFPK', NULL, '2017-12-08 02:06:06', '2017-12-08 02:06:06');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cruds`
+-- Struktur dari tabel `cruds`
 --
 
 CREATE TABLE `cruds` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `handphone_number` int(11) NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -63,16 +66,85 @@ CREATE TABLE `cruds` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `cruds`
+-- Dumping data untuk tabel `cruds`
 --
 
-INSERT INTO `cruds` (`id`, `name`, `email`, `password`, `handphone_number`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Rakish', 'rakishfrisky@gmail.com', '123456', 1234567890, NULL, '2017-11-16 23:39:47', '2017-11-16 23:40:15');
+INSERT INTO `cruds` (`id`, `name`, `email`, `admin`, `password`, `handphone_number`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'test', 'gppratama17@gmail.com', '', '11111111', 11111111, NULL, '2017-12-09 09:28:46', '2017-12-09 09:28:46');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Struktur dari tabel `events`
+--
+
+CREATE TABLE `events` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_admin` int(11) NOT NULL,
+  `judul` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `events`
+--
+
+INSERT INTO `events` (`id`, `id_admin`, `judul`, `foto`, `deskripsi`, `created_at`, `updated_at`) VALUES
+(1, 1, 'haha', '', 'hahahah', NULL, NULL),
+(2, 2, 'haha', '', 'hahahah', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `explores`
+--
+
+CREATE TABLE `explores` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nama_wisata` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lat` decimal(10,7) NOT NULL,
+  `long` decimal(10,7) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `homestays`
+--
+
+CREATE TABLE `homestays` (
+  `id_homestay` int(10) UNSIGNED NOT NULL,
+  `nama_homestay` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `harga` decimal(8,2) NOT NULL,
+  `kuota` int(11) NOT NULL,
+  `lat` decimal(10,7) NOT NULL,
+  `long` decimal(10,7) NOT NULL,
+  `foto_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto_2` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foto_3` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `homestays`
+--
+
+INSERT INTO `homestays` (`id_homestay`, `nama_homestay`, `harga`, `kuota`, `lat`, `long`, `foto_1`, `foto_2`, `foto_3`, `created_at`, `updated_at`) VALUES
+(1, 'Gunung', '1.00', 1, '1.1000000', '1.1000000', 'C:\\xampp\\tmp\\php915D.tmp', NULL, NULL, '2017-12-09 11:25:38', '2017-12-09 11:25:38'),
+(2, 'h', '1.00', 1, '1.1000000', '1.1000000', 'C:\\xampp\\tmp\\phpFEAF.tmp', NULL, NULL, '2017-12-09 12:05:25', '2017-12-09 12:05:25');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -82,22 +154,47 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Dumping data untuk tabel `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2017_11_10_132100_create_admins_table', 1),
-(4, '2017_11_10_174739_create_cruds_table', 2),
-(5, '2017_11_10_200522_create_cruds_table', 3),
-(6, '2017_11_13_141806_create_products_table', 4),
-(7, '2017_11_16_122726_create_cruds_table', 5);
+(4, '2017_11_16_122726_create_cruds_table', 1),
+(5, '2017_12_05_104322_create_newss_table', 1),
+(6, '2017_12_05_104344_create_events_table', 1),
+(7, '2017_12_07_072050_create_souvenirs_table', 1),
+(8, '2017_12_07_072447_create_explores_table', 1),
+(9, '2017_12_07_183016_create_homestays_table', 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Struktur dari tabel `newss`
+--
+
+CREATE TABLE `newss` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'admin',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `newss`
+--
+
+INSERT INTO `newss` (`id`, `judul`, `foto`, `deskripsi`, `admin`, `created_at`, `updated_at`) VALUES
+(34, 'Udah', '../images/news/taro.jpg', 'Bisa upload foto', 'admin', '2017-12-09 22:45:32', '2017-12-09 22:45:32');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -109,7 +206,24 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `souvenirs`
+--
+
+CREATE TABLE `souvenirs` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nama_toko` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foto_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lat` decimal(10,7) NOT NULL,
+  `long` decimal(10,7) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -117,18 +231,11 @@ CREATE TABLE `users` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `handphone_number` int(11) NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Rakish', 'rakishfrisky@gmail.com', '$2y$10$hoYNL..eCxYS/S117QdlieMBacjCiYe7ZlLRcQ/xbveS/QmfMuj5i', 'zwmNS5AN3uaEMe8E1GWQ3nwle2qUu7pj05IKpNY6u3UPp3BnaEwboKu3yeYp', '2017-11-10 23:25:15', '2017-11-10 23:25:15'),
-(2, 'rev', 'rev@gmail.com', '$2y$10$HmwaQm2xzaVomlDEilkXIuPjCP5QLFfkUrYfeJAgnlOdrPlIFrPui', 'z6AGMCQOH0qbaSGEbrZpLTRBmVZf2qPYOCFJx8rcyuEVAmNqNQzwc1jHbcJH', '2017-11-10 23:26:11', '2017-11-10 23:26:11');
 
 --
 -- Indexes for dumped tables
@@ -149,9 +256,33 @@ ALTER TABLE `cruds`
   ADD UNIQUE KEY `cruds_email_unique` (`email`);
 
 --
+-- Indexes for table `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `explores`
+--
+ALTER TABLE `explores`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `homestays`
+--
+ALTER TABLE `homestays`
+  ADD PRIMARY KEY (`id_homestay`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `newss`
+--
+ALTER TABLE `newss`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -159,6 +290,12 @@ ALTER TABLE `migrations`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `souvenirs`
+--
+ALTER TABLE `souvenirs`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -175,25 +312,55 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cruds`
 --
 ALTER TABLE `cruds`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `events`
+--
+ALTER TABLE `events`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `explores`
+--
+ALTER TABLE `explores`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `homestays`
+--
+ALTER TABLE `homestays`
+  MODIFY `id_homestay` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `newss`
+--
+ALTER TABLE `newss`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `souvenirs`
+--
+ALTER TABLE `souvenirs`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

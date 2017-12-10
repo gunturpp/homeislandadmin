@@ -1,32 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Souvenir;
 use Illuminate\Http\Request;
-use App\Dashboard;
 
-class AdminController extends Controller
+class SouvenirController extends Controller
 {
-    
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth:admin');
         //$this->middleware('auth');
     }
-
     /**
-     * Show the application dashboard.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('dashboard');
+        $souvenirs = Souvenir::latest()->paginate(5);
+        return view('souvenir.index',compact('souvenir'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+
     }
 
     /**
@@ -36,7 +31,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        // return view('admins.create');
+        //
     }
 
     /**
@@ -93,5 +88,5 @@ class AdminController extends Controller
     public function destroy($id)
     {
         //
-    }    
+    }
 }
