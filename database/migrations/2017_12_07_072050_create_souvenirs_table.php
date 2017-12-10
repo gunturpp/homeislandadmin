@@ -13,8 +13,14 @@ class CreateSouvenirsTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);        
         Schema::create('souvenirs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('nama_toko');
+            $table->string('foto_1', 200) ;            
+            $table->string('alamat');
+            $table->decimal('lat', 10, 7);
+            $table->decimal('long', 10, 7);            
             $table->timestamps();
         });
     }

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\event;
+use App\Event;
 class EventController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+        //$this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::latest()->paginate(5);
-        return view('event.index',compact('event'))
+        return view('event.index',compact('events'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -24,8 +29,8 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {    
+        return view('event.create');
     }
 
     /**
@@ -36,7 +41,14 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'judul' => 'required',
+            'dekskripsi' => 'required',
+        ]);
+        Event::create($request->all());
+        return redirect()->route('event.index')
+                        ->with('success','New Event has been created successfully');
+
     }
 
     /**
@@ -47,7 +59,9 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Event::find($id);
+        return view('event.show',compact('event'));
+
     }
 
     /**
@@ -58,7 +72,9 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Event::find($id);
+        return view('event.edit',compact('event'));
+
     }
 
     /**
@@ -70,7 +86,14 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'judul' => 'required',
+            'dekskripsi' => 'required',
+        ]);
+        Event::create($request->all());
+        return redirect()->route('event.index')
+                        ->with('success','New Event has been created successfully');
+
     }
 
     /**
@@ -81,6 +104,8 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Event::find($id)->delete();
+        return redirect()->route('event.index')
+                        ->with('success','New event has been deleted successfully');
     }
 }

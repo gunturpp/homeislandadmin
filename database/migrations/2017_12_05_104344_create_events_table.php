@@ -15,9 +15,9 @@ class CreateEventsTable extends Migration
     {
         Schema::defaultStringLength(191);        
         Schema::create('events', function (Blueprint $table) {
-            $table->increments('id_events');
+            $table->increments('id');
             $table->text('judul');
-            $table->binary('foto');                        
+            $table->string('foto');                        
             $table->text('deskripsi');                        
             $table->timestamps();
         });

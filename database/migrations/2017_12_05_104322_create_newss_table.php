@@ -15,10 +15,12 @@ class CreateNewssTable extends Migration
     {
         Schema::defaultStringLength(191);        
         Schema::create('newss', function (Blueprint $table) {
-            $table->increments('id_news');
-            $table->text('judul');
-            $table->binary('foto');                        
-            $table->text('deskripsi');                        
+            $table->increments('id');
+            $table->string('judul');
+            $table->string('foto');    
+            $table->string('admin');                    
+            $table->string('deskripsi');                        
+            $table->rememberToken();
             $table->timestamps();
         });
     }

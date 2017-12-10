@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Souvenir extends Model
 {
-    protected $table = 'events';
+    protected $table = 'souvenirs';
     
     /**
      * The attributes that are mass assignable.
@@ -14,9 +14,7 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'judul',
-        'deskripsi',
-        'foto',
+        'nama_homestay',  'harga', 'kuota', 'lat', 'long', 'foto_1', 'foto_2', 'foto_3'
     ];
 
     /**

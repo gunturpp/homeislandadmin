@@ -4,16 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Crud;
+use Illuminate\Support\Facades\Auth;
 
 class CrudController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+        //$this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
+        $user = Auth::user();
+		if($user->role=='admin'){
+			$cruds = DB::table('cruds')
+			->count();
+		}
+
         $cruds = Crud::latest()->paginate(5);
         return view('cruds.index',compact('cruds'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

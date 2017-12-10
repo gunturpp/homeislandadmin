@@ -6,13 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Crud extends Model
 {    
+    protected $table = 'cruds';
+    
     /**
     * The attributes that are mass assignable.
     *
     * @var array
     */        
     protected $fillable = [
-        'name', 'email', 'password', 'handphone_number',
+        'name',
+         'email',
+          'password',
+           'handphone_number',
     ];
 
     /**
@@ -21,7 +26,7 @@ class Crud extends Model
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        // 'password', 'remember_token',
     ];
  
 }
