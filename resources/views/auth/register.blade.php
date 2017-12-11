@@ -39,6 +39,21 @@
                             </div>
                         </div>
 
+
+                        <div class="form-group{{ $errors->has('cakupan') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Cakupan</label>
+
+                            <div class="col-md-6">
+                                <input id="cakupan" type="text" class="form-control" name="cakupan" value="{{ old('hp') }}" required>
+
+                                @if ($errors->has('cakupan'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('cakupan') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

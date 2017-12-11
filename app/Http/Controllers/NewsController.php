@@ -22,17 +22,18 @@ class NewsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {	
         $user = Auth::user();
 		if($user->cakupan=='daerah' || $user->cakupan=='pusat' ){
-			$newsss = DB::table('newss')
+			$newss = DB::table('newss')
 			->count();
         }
         else {
             return 'salah';
         }
-        $newss = News::latest()->paginate(5);
-        return view('news.index',compact('newss'))
+        // $newss = News::latest()->paginate(5);
+        $newss = DB::table('newss')->where('admin', $user->email)->latest()->paginate(5);
+        return view('news.index',compact('newss', 'admins'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
 
     }
@@ -55,15 +56,16 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         request()->validate([
             'judul' => 'required|max:20',
             'deskripsi' => 'required|max:255',
-            'foto' => 'required|mimes:jpeg,png,jpg|max:15000',       
+            'foto' => 'required|mimes:jpeg,png,jpg|max:15000',
             ]);
-            $data = $request->only('judul','deskripsi', 'foto');
+            $data = $request->only('judul','deskripsi', 'foto', 'admin');
             
             // $data = $request->except(['image']);
-            $photo1 = "";        
+            $photo1 = "";
             if ($request->hasFile('foto')){ //has file itu meminta nama databasenya bukan classnya
                 $ip = request()->ip();
                 $file = $request->foto;
@@ -73,6 +75,7 @@ class NewsController extends Controller
                 $data['foto'] = '../'. $destinationPath . '/' . $fileName;
                 $file -> move($destinationPath, $getPath,$fileName);
                 $photo1 = $fileName;
+                $data['admin'] = $user->email;
                 // return $getPath;
 
     

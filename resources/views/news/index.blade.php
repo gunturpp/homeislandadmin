@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 @include('dashboard.header')
 
 <div class="content-wrapper">
@@ -63,3 +65,5 @@
             {!! $newss->links() !!}
     </section>
 </div>
+</body>
+</html>
